@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Camera Detection MVP</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="hero">
+        <p class="eyebrow">Browser Camera MVP</p>
+        <h1>Object Detection Overlay</h1>
+        <p class="description">
+          Windowsのカメラ映像をブラウザで開き、検出した物体に英語ラベルと枠を重ねて表示します。
+        </p>
+      </header>
+
+      <section class="panel">
+        <div class="stage" id="stage">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+          <div class="status" id="status">モデルを読み込んでいます...</div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="card">
+            <h2>Controls</h2>
+            <label class="toggle">
+              <input id="mirrorToggle" type="checkbox" />
+              <span>Mirror preview</span>
+            </label>
+            <label class="field">
+              <span>Track label</span>
+              <select id="labelSelect">
+                <option value="">All objects</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Minimum confidence</span>
+              <input
+                id="confidenceRange"
+                type="range"
+                min="20"
+                max="95"
+                step="5"
+                value="55"
+              />
+              <output id="confidenceValue">55%</output>
+            </label>
+            <button id="clearLockButton" class="button" type="button">
+              Clear lock
+            </button>
+            <button id="snapshotButton" class="button button-secondary" type="button">
+              Save snapshot
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>Detected Objects</h2>
+            <ul id="detections" class="detections">
+              <li>No detections yet.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h2>Event Log</h2>
+            <ul id="eventLog" class="event-log">
+              <li>Waiting for camera...</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h2>Recent Snapshots</h2>
+            <div id="snapshotGallery" class="snapshot-gallery">
+              <p class="empty-state">No snapshots yet.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Notes</h2>
+            <ul class="notes">
+              <li>初回はブラウザのカメラ許可が必要です。</li>
+              <li>`localhost` で開くと安定して動作します。</li>
+              <li>検出カテゴリは COCO モデルに含まれる物体です。</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
